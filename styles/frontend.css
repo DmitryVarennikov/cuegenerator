@@ -1,0 +1,133 @@
+/* CSS Document */
+* {
+    margin:0px;
+    padding:0px;
+    outline:none;
+}
+
+body {
+    font-family:"Trebuchet MS",Arial,Tahoma;
+    background-color:#4d4d4d;
+    font-size: 17px;
+}
+
+input, textarea {
+    font-size: 15px;
+}
+
+a img {
+    border:0;
+}
+
+#container {
+    width:1000px;
+    margin:0 auto;
+    margin-top: 20px;
+    padding:20px;
+    overflow:auto;
+}
+
+#logo {
+    float: left;
+}
+span#counter {
+    color: #FCDF79;
+}
+
+
+#feedback {
+    float: right;
+}
+
+#feedback a {
+	color: #FCDF79;
+}
+#feedback a:hover {
+    color: #fff9e6;
+}
+
+.clear {
+    clear: both;
+}
+
+#save {
+    float: right;
+    margin: 0;
+    padding: 0 10px;
+    background-color:#FCDF79;
+    font-size: 17px;
+    font-weight: bold;
+    height: 28px;
+}
+
+label {
+    color: #fff9e6;
+}
+
+input, textarea {
+    background-color: #fff9e6;
+    border: 1px solid #000;
+    resize: none;
+}
+
+#cue_fields {
+    margin-top: 20px;
+    float: left;
+}
+    #cue_fields .field {
+        clear:both; 
+        line-height:25px;
+    }
+    #cue_fields .field label {
+        float:left;
+        display: block;
+        width: 100px;
+        padding-right:10px;
+    }
+        #cue_fields .field label sup a {
+            color: #FCDF79;
+            font-size: 12px;
+        }
+    #cue_fields .field input, 
+    #cue_fields .field textarea {
+        float:left;
+        display: block;
+        width: 350px;
+        height: 20px;
+        margin: 0;
+    }
+    #cue_fields .field textarea#tracklist {
+        height: 200px;
+    }
+    #cue_fields .field textarea#regions_list {
+        height: 100px;
+    }
+
+#cue_ready {
+    margin-left: 20px;
+    margin-top: 20px;
+    float: right;
+}
+    #cue_ready #cue {
+        height: 480px;
+        width: 510px;
+        background:url(../images/read-only.gif) no-repeat center;
+        background-color: #fff9e6;
+    }
+
+#help {
+    width: 900px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+    #help h2 {
+        font-size: 22px;
+    }
+    #help img {
+        margin: 10px 0;
+        border: 1px solid #000;
+    }
+    #help div.delimiter {
+        margin-bottom: 50px;
+    }

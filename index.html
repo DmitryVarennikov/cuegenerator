@@ -1,0 +1,47 @@
+<?php 
+    $_meta['description'] = 'Light Cue Sheet Generator is a free online cuetool to make Cue Sheets or Cue Files easyly and fast. Лёгкий и наиболее удобный онлайн инструмент для простого и быстрого создания файлов cue (индексных карт).';
+    $_meta['title'] = 'Make Cue File or Cue Sheet';
+    require_once '_layout/header.html'; 
+?>
+
+<div id="container">
+    <?php require_once '_layout/logo.html'; ?>
+    
+    <form method="post" action="/" enctype="application/x-www-form-urlencoded">
+    <input type="submit" name="save" id="save" value="  Save To File  " />
+    <div class="clear"></div>
+    
+    
+    <div id="cue_fields">
+        <div class="field">
+           <label for="perfomer">Perfomer:</label>
+           <input type="text" id="perfomer" name="perfomer" value="<?php if(isset($_POST['perfomer'])) echo htmlspecialchars($_POST['perfomer']); ?>" />
+        </div>
+        <div class="field">
+           <label for="title">Title:</label>
+           <input type="text" id="title" name="title" value="<?php if(isset($_POST['title'])) echo htmlspecialchars($_POST['title']); ?>" />
+        </div>
+        <div class="field">
+           <label for="filename">File name:</label>
+           <input type="text" id="filename" name="filename" value="<?php if(isset($_POST['filename'])) echo htmlspecialchars($_POST['filename']); ?>" />
+        </div>
+        <div class="field">
+           <label for="tracklist">Tracklist:</label>
+           <textarea id="tracklist" name="tracklist" rows="5" cols="10"><?php if(isset($_POST['tracklist'])) echo htmlspecialchars($_POST['tracklist']); ?></textarea>
+        </div>
+        <div class="field">
+           <label for="tracklist">Timings: <sup><a href="help.html" target="new">Help</a></sup>
+           </label>
+           <textarea id="regions_list" name="regions_list" rows="5" cols="10"><?php if(isset($_POST['regions_list'])) echo htmlspecialchars($_POST['regions_list']); ?></textarea>
+        </div>
+    </div>
+    <div id="cue_ready">
+        <input type="hidden" name="generate" id="generate" />
+        <textarea id="cue" name="cue" rows="5" cols="10" readonly="readonly"><?php if(isset($_POST['cue'])) echo htmlspecialchars($_POST['cue']); ?></textarea>
+        
+    </div>
+    </form>
+    
+</div>
+
+<?php require_once '_layout/footer.html'; ?>

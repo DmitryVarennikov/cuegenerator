@@ -1,0 +1,10 @@
+AddType application/x-httpd-php .html
+
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www.(cuegenerator(\.[a-z]+)?)$
+RewriteRule (.*) http://%1/$1 [R=301,L]
+
+RewriteRule (^|\/)[_\.] - [F]
+
+DirectoryIndex index.php
+Options -Indexes

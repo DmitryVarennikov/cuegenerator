@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head>
+    
+    <?php if(isset($meta_refresh)) echo $meta_refresh; ?>
+    <meta name="verify-v1" content="4fJDtEb+gvPxFoW8mbL//VNBjfUo6y9NewRzEt7Cl4o=" />
+    <meta http-equiv="Expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="description" content="<?=$_meta['description']?>" />
+    <meta name="keywords" content="make cue easy and fast, light online cue generator, cue sheet compiler, generate .cue, cue sheets, .cue generator, cue, .cue, cue file, cue sheet maker, cue sheet tools, создание индексных карт, генератор файлов cue" />
+
+    <title><?=$_meta['title']?> - CUEgenerator.net</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="styles/frontend.css" />
+    
+    <?php if (DEBUG_MODE) : ?>
+        <script type="text/javascript" src="scripts/jquery-1.3.1.min.js"></script>
+        <script type="text/javascript" src="scripts/cue.js"></script>
+        <script type="text/javascript" src="scripts/frontend.js"></script>
+    <?php else : ?>
+        <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAA2tqD9pn-42ltM09ev76LPBSuX_f7zQsBAdGRj0U-_0M07MpdohRTSCNyRVyhDV8mUlp2ZbtzTg5JEw"></script>
+        <script type="text/javascript">google.load('jquery', '1.3.2');</script>
+        <script type="text/javascript" src="scripts/compressed/cue.js"></script>
+        <script type="text/javascript" src="scripts/compressed/frontend.js"></script>
+    <?php endif; ?>
+    
+</head>
+<body>
