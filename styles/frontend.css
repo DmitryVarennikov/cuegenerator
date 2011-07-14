@@ -29,7 +29,13 @@ a img {
 
 #logo {
     float: left;
+    background:url(../images/CUEgenerator.png) no-repeat left top;
+    width: 217px;
+    height: 58px;
 }
+    #logo a {
+        color: transparent;
+    }
 span#counter {
     color: #FCDF79;
 }
@@ -68,6 +74,10 @@ input, textarea {
     background-color: #fff9e6;
     border: 1px solid #000;
     resize: none;
+
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari, Chrome */
+    border-radius: 3px; /* CSS3 */
 }
 
 #cue_fields {
