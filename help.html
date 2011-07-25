@@ -1,9 +1,13 @@
-<?php 
-    require_once '_config.php';
-    
-    $_meta['description'] = 'Help for regions list. Help to simplify process of making Cue Files or Cue Sheets. Помощь в создании cue-файлов (индексных карт).';
-    $_meta['title'] = 'Help making Cue Files or Cue Sheets';
-    require_once '_layout/header.html'; 
+<?php require_once '_config.php'; ?>
+<?php require_once '_config/content.php'; ?>
+
+<?php
+    $META['lang']           = LOCALE;
+    $META['title']          = $CONTENT['meta']['help']['title'];
+    $META['keywords']       = $CONTENT['meta']['help']['keywords'];
+    $META['description']    = $CONTENT['meta']['help']['description'];
+
+    require_once '_layout/header.html';
 ?>
 
 <div id="container">

@@ -1,9 +1,6 @@
 <h1 id="logo"><a href=".">CUEgenerator</a></h1>
-<?/*<a href="."><img src="images/CUEgenerator.png" width="217" height="58" alt="CUEgenerator.net" title="CUEgenerator.net" id="logo" /></a>*/?>
-<span id="counter">(<?=(int)file_get_contents(COUNTER_FILENAME)?>)</span>
+<span id="counter" title="<?=$CONTENT['content']['counter_text']?>">(<?=(int)file_get_contents(COUNTER_FILENAME)?>)</span>
 
-<div  id="feedback">
-    <a target="_blank" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#109;&#105;&#116;&#114;&#121;&#46;&#118;&#97;&#114;&#101;&#110;&#110;&#105;&#107;&#111;&#118;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;&#63;&#115;&#117;&#98;&#106;&#101;&#99;&#116;&#61;&#102;&#101;&#101;&#100;&#98;&#97;&#99;&#107;">&#115;&#101;&#110;&#100;&#32;&#121;&#111;&#117;&#114;&#32;&#102;&#101;&#101;&#100;&#98;&#97;&#99;&#107;&#32;&#104;&#101;&#114;&#101;</a>
-</div>
+<div  id="feedback"><?=$CONTENT['content']['feedback_email_link']?></div>
 
 <div class="clear"></div>

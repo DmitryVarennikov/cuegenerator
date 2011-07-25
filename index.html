@@ -1,14 +1,18 @@
-<?php 
-    $_meta['description'] = 'Light Cue Sheet Generator is a free online cuetool to make Cue Sheets or Cue Files easyly and fast. Лёгкий и наиболее удобный онлайн инструмент для простого и быстрого создания файлов cue (индексных карт).';
-    $_meta['title'] = 'Make Cue File or Cue Sheet';
-    require_once '_layout/header.html'; 
+<?php require_once '_config/content.php'; ?>
+<?php
+    $META['lang']           = LOCALE;
+    $META['title']          = $CONTENT['meta']['index']['title'];
+    $META['keywords']       = $CONTENT['meta']['index']['keywords'];
+    $META['description']    = $CONTENT['meta']['index']['description'];
+
+    require_once '_layout/header.html';
 ?>
 
 <div id="container">
     <?php require_once '_layout/logo.html'; ?>
     
     <form method="post" action="/" enctype="application/x-www-form-urlencoded">
-    <input type="submit" name="save" id="save" value="  Save To File  " />
+    <input type="submit" name="save" id="save" value="<?=$CONTENT['content']['save_button']?>" />
     <div class="clear"></div>
     
     
