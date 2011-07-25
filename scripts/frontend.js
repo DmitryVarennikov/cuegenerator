@@ -1,9 +1,14 @@
 $(function()
 {
+    /**
+     * Cue
+     */
     $('#cue_fields input, #cue_fields textarea').keyup(function()
     {
-        var cue = new Cue('perfomer', 'title', 'filename', 'tracklist', 'regions_list');
-        $('textarea#cue').val(cue.toString());
+        var cue = new CUEgenerator()
+            .toString('perfomer', 'title', 'filename', 'tracklist', 'regions_list');
+
+        $('textarea#cue').val(cue);
     });
     
     $('textarea#cue').one('click', function()

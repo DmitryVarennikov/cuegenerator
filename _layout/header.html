@@ -17,14 +17,15 @@
     <link rel="stylesheet" type="text/css" href="styles/frontend.css?v1" />
     
     <?php if (DEBUG_MODE) : ?>
-        <script type="text/javascript" src="scripts/jquery-1.3.1.min.js"></script>
-        <script type="text/javascript" src="scripts/cue.js"></script>
-        <script type="text/javascript" src="scripts/frontend.js"></script>
+        <script type="text/javascript" src="scripts/jquery-1.6.1.min.js"></script>
+        <script type="text/javascript" src="scripts/cuegenerator/parser.js?<?=time()?>"></script>
+        <script type="text/javascript" src="scripts/cuegenerator/formatter.js?<?=time()?>"></script>
+        <script type="text/javascript" src="scripts/cuegenerator.js?<?=time()?>"></script>
+        <script type="text/javascript" src="scripts/frontend.js?<?=time()?>"></script>
     <?php else : ?>
-        <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAA2tqD9pn-42ltM09ev76LPBSuX_f7zQsBAdGRj0U-_0M07MpdohRTSCNyRVyhDV8mUlp2ZbtzTg5JEw"></script>
-        <script type="text/javascript">google.load('jquery', '1.3.2');</script>
-        <script type="text/javascript" src="scripts/compressed/cue.js"></script>
-        <script type="text/javascript" src="scripts/compressed/frontend.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script type="text/javascript" src="scripts/compressed/cuegenerator.js?2011-07-25"></script>
+        <script type="text/javascript" src="scripts/compressed/frontend.js?2011-07-25"></script>
     <?php endif; ?>
     
 </head>
