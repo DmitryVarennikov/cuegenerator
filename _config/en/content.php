@@ -5,13 +5,13 @@ $CONTENT = array(
     'meta' => array(
         'index' => array(
             'title'         => 'Create your own cue sheet :: Make your own cue file - CUEgenerator.net',
-            'keywords'      => 'CUEgenerator online, cue, cue sheet compiler, cue-sheet compiler, cue-file, cue-sheet',
-            'description'   => 'CUEgenerator is a free online cue tool to make cue sheets easyly and fast. Light cue sheet compiler to create cue files.',
+            'keywords'      => 'CUEgenerator, CUE generator, CUEgenerator online, cue file generation, que generator, what is a cue file, cue, cue sheet compiler, cue-sheet compiler, cue-file, cue-sheet',
+            'description'   => 'CUEgenerator is a free online cue tool to make cue sheets easyly and fast. Light cue sheet compiler to create your own cue files.',
         ),
         'help' => array(
             'title'         => 'Cue sheet help :: Cue file help - CUEgenerator.net',
-            'keywords'      => 'Cue sheet help, Cue file help, Adobe Audition help, Audacity help, Sony Sound Forge help',
-            'description'   => 'Cue sheet timings help for Adobe Audition, Audacity, Sony Sound Forge',
+            'keywords'      => 'Cue sheet help, cue file help, cue file generation help, Adobe Audition help, Audacity help, Sony Sound Forge help',
+            'description'   => 'Cue sheet timings help for Adobe Audition, Audacity, Sony Sound Forge. Cue file generation for Adobe Audition, Audacity, Sony Sound Forge',
         ),
     ),
 

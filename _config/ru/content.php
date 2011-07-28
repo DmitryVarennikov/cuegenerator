@@ -5,7 +5,7 @@ $CONTENT = array(
     'meta' => array(
         'index' => array(
             'title'         => 'Создай свой cue файл - CUEgenerator.ru',
-            'keywords'      => 'CUEgenerator онлайн, CUEgenerator он-лайн, cue, генератор cue, создать cue файл, куе файл',
+            'keywords'      => 'CUEgenerator, CUE generator, CUEgenerator онлайн, CUEgenerator он-лайн, cue, генератор cue, создать cue файл, куе файл, что такое cue файл',
             'description'   => 'CUEgenerator — простой и удобный онлайн инструмент для быстрого создания cue файлов (индексных карт).',
         ),
         'help' => array(
