@@ -47,10 +47,19 @@ span#counter {
 
 #feedback a {
 	color: #FCDF79;
+    display: block;
+    float: right;
 }
 #feedback a:hover {
     color: #fff9e6;
 }
+    #feedback .google-plus {
+        float: left;
+    }
+    #feedback .yandex-share {
+        float: left;
+        margin-right: 10px;
+    }
 
 .clear {
     clear: both;

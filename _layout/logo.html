@@ -1,6 +1,11 @@
+<?php require_once '_helpers/LikeButton.php'; ?>
+
 <h1 id="logo"><a href=".">CUEgenerator</a></h1>
 <span id="counter" title="<?=$CONTENT['content']['counter_text']?>">(<?=(int)file_get_contents(COUNTER_FILENAME)?>)</span>
 
-<div  id="feedback"><?=$CONTENT['content']['feedback_email_link']?></div>
+<div  id="feedback">
+    <?=LikeButtonHelper::choose(LOCALE)?>
+    <?=$CONTENT['content']['feedback_email_link']?>
+</div>
 
 <div class="clear"></div>
