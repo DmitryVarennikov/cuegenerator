@@ -58,9 +58,10 @@ define([
                 var splitted = [string];
             }
 
-            return $.map(splitted, function(string) {
-                return $.trim(string);
-            });
+            for (i = 0; i < splitted.length; i ++) {
+                splitted[i].trim();
+            }
+            return splitted;
         }
 
         var tracklist = [];
@@ -68,7 +69,7 @@ define([
 
         for (i = 0, track = 1; i < contents.length; i++, track++) {
 
-            var row = $.trim(contents[i]);
+            var row = contents[i].trim();
             if (!row.length) {
                 track--;
                 continue;
@@ -122,7 +123,7 @@ define([
 
         line = 1;
         for (i = 0; i < contents.length; i++) {
-            var row = $.trim(contents[i]);
+            var row = contents[i].trim();
 
             // find matches of soundforge or audacity format
 
