@@ -30,13 +30,13 @@ CUEgenerator_Parser.prototype.getTracklist = function(string)
     {
         // вот такими символами могут быть разделены perfomer и title
         var separators =
-        [
-            ' - ', // 45 hyphen-minus
-            ' – ', // 8211 en dash
-            ' ‒ ', // 8210 figure dash
-            ' — ', // 8212 em dash
-            ' ― ' // 8213 horizontal bar
-        ];
+            [
+                ' - ', // 45 hyphen-minus
+                ' – ', // 8211 en dash
+                ' ‒ ', // 8210 figure dash
+                ' — ', // 8212 em dash
+                ' ― ' // 8213 horizontal bar
+            ];
 
         // foreach, switch are toooooooooo slow!
 
@@ -54,16 +54,21 @@ CUEgenerator_Parser.prototype.getTracklist = function(string)
             var splitted = [string];
         }
 
-        return $.map(splitted, function(string) {return $.trim(string);});
+        return $.map(splitted, function(string) {
+            return $.trim(string);
+        });
     }
 
     var tracklist = [];
     var contents = string.split('\n');
 
-    for (i=0, track=1; i<contents.length; i++, track++) {
+    for (i = 0, track = 1; i < contents.length; i++, track++) {
 
         var row = $.trim(contents[i]);
-        if (!row.length) {track--;continue;}
+        if (!row.length) {
+            track--;
+            continue;
+        }
 
         var time = '00:00:00';
         var title_perfomer = splitTitlePerfomer(row);
@@ -71,11 +76,11 @@ CUEgenerator_Parser.prototype.getTracklist = function(string)
 
         // search for time in front of track
         /*
-            01.[18:02] Giuseppe – Fallen
-            10:57 02. Space Manoeuvres - "Stage One [Tilt's Apollo 11 Mix]"
-            [08:45] 03. 8 Ball - Sweet
-            CJ Bolland - "The Prophet"
-        */
+         01.[18:02] Giuseppe – Fallen
+         10:57 02. Space Manoeuvres - "Stage One [Tilt's Apollo 11 Mix]"
+         [08:45] 03. 8 Ball - Sweet
+         CJ Bolland - "The Prophet"
+         */
         var matches = perfomer.match(/^(\d{2}\.)?\[?(\d{2,3}:\d{2})\]?.*$/i);
         if (null != matches && matches.length > 1) {
             time = matches[2];
@@ -94,13 +99,13 @@ CUEgenerator_Parser.prototype.getTracklist = function(string)
         perfomer = perfomer.replace(/"/g, '');
         title = title.replace(/"/g, '');
 
-        tracklist[track]=
-        {
-               track : track < 10 ? '0' + track : track,
-            perfomer : perfomer,
-               title : title,
-                time : time
-        };
+        tracklist[track] =
+            {
+                track: track < 10 ? '0' + track : track,
+                perfomer: perfomer,
+                title: title,
+                time: time
+            };
     }
 
     return tracklist;
@@ -111,8 +116,8 @@ CUEgenerator_Parser.prototype.getRegionsList = function(string)
     var regions_list = new Array();
     var contents = string.split('\n');
 
-    line=1;
-    for (i=0; i<contents.length; i++) {
+    line = 1;
+    for (i = 0; i < contents.length; i++) {
         var row = $.trim(contents[i]);
 
         // find matches of soundforge or audacity format
@@ -131,7 +136,7 @@ CUEgenerator_Parser.prototype.getRegionsList = function(string)
                 var fr = time.shift();
             } else {
                 var sc_fr = time.shift();
-                switch(true)
+                switch (true)
                 {
                     case -1 != sc_fr.indexOf('.') :
                         sc_fr = sc_fr.split('.');
@@ -149,8 +154,8 @@ CUEgenerator_Parser.prototype.getRegionsList = function(string)
             mn = parseInt(mn, 10) + (parseInt(hr, 10) * 60);
             regions_list[line] = (mn < 10 ? '0' + mn : mn) + ':' + sc + ':' + fr;
 
-
             line++;
+            continue;
         }
 
         var matches = row.match(/(\d{1,5}).(\d{6})/i);
@@ -161,8 +166,8 @@ CUEgenerator_Parser.prototype.getRegionsList = function(string)
 
             var mn = minutes > 0 ? minutes : 0;
             var sc = seconds % 60;
-	    // frames can not be more than 74, so floor them instead of round
-            var fr = Math.floor(parseFloat (0 + '.' + milliseconds) * 75);
+            // frames can not be more than 74, so floor them instead of round
+            var fr = Math.floor(parseFloat(0 + '.' + milliseconds) * 75);
 
             regions_list[line] =
                 (mn < 10 ? '0' + mn : mn) + ':' +
@@ -170,6 +175,24 @@ CUEgenerator_Parser.prototype.getRegionsList = function(string)
                 (fr < 10 ? '0' + fr : fr);
 
             line++;
+            continue;
+        }
+
+        // try to recognise raw cue timings
+        var matches = row.match(/(\d{2}:\d{2}:\d{2})/i);
+        if (null != matches) {
+            var time = matches[0].split(':');
+            var mn = parseInt(time[0], 10);
+            var sc = parseInt(time[1], 10);
+            var fr = parseInt(time[2], 10);
+
+            regions_list[line] =
+                (mn < 10 ? '0' + mn : mn) + ':' +
+                (sc < 10 ? '0' + sc : sc) + ':' +
+                (fr < 10 ? '0' + fr : fr);
+
+            line++;
+            continue;
         }
     }
 
