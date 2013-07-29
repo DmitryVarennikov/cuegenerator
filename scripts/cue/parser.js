@@ -64,7 +64,7 @@ define([
             return splitted;
         }
 
-        var tracklist = [];
+        var tracklist = {};
         var contents = string.split('\n');
 
         for (i = 0, track = 1; i < contents.length; i++, track++) {
