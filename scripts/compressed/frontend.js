@@ -1,1 +1,0 @@
-$(function(){$("#cue_fields input, #cue_fields textarea").keyup(function(){var a=(new CUEgenerator).toString("perfomer","title","filename","tracklist","regions_list");$("textarea#cue").val(a)});$("textarea#cue").one("click",function(){$(this).select()});var a=$(document).height()-20;$("#cue_fields textarea#tracklist").animate({height:a-350});$("#cue").animate({height:a-173})});

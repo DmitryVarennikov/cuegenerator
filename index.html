@@ -1,51 +1,51 @@
 <?php require_once '_config/content.php'; ?>
 <?php
-    $META['lang']           = LOCALE;
-    $META['title']          = $CONTENT['meta']['index']['title'];
-    $META['keywords']       = $CONTENT['meta']['index']['keywords'];
-    $META['description']    = $CONTENT['meta']['index']['description'];
+$META['lang']           = LOCALE;
+$META['title']          = $CONTENT['meta']['index']['title'];
+$META['keywords']       = $CONTENT['meta']['index']['keywords'];
+$META['description']    = $CONTENT['meta']['index']['description'];
 
-    require_once '_layout/header.html';
+require_once '_layout/header.html';
 ?>
 
 <div id="container">
     <?php require_once '_layout/logo.html'; ?>
-    
+
     <form method="post" action="/" enctype="application/x-www-form-urlencoded">
-    <input type="submit" name="save" id="save" value="<?=$CONTENT['content']['save_button']?>" />
-    <div class="clear"></div>
-    
-    
-    <div id="cue_fields">
-        <div class="field">
-           <label for="perfomer">Perfomer:</label>
-           <input type="text" id="perfomer" name="perfomer" value="<?php if(isset($_POST['perfomer'])) echo htmlspecialchars($_POST['perfomer']); ?>" />
+        <input type="submit" name="save" id="save" value="<?=$CONTENT['content']['save_button']?>" />
+        <div class="clear"></div>
+
+
+        <div id="cue_fields">
+            <div class="field">
+                <label for="perfomer">Perfomer:</label>
+                <input tabindex="1" autocomplete="off" type="text" id="perfomer" name="perfomer" value="<?php if(isset($_POST['perfomer'])) echo htmlspecialchars($_POST['perfomer']); ?>" />
+            </div>
+            <div class="field">
+                <label for="title">Title:</label>
+                <input tabindex="2" autocomplete="off" type="text" id="title" name="title" value="<?php if(isset($_POST['title'])) echo htmlspecialchars($_POST['title']); ?>" />
+            </div>
+            <div class="field">
+                <label for="filename">File name:</label>
+                <input tabindex="3" autocomplete="off" type="text" id="filename" name="filename" value="<?php if(isset($_POST['filename'])) echo htmlspecialchars($_POST['filename']); ?>" />
+            </div>
+            <div class="field">
+                <label for="tracklist">Tracklist:</label>
+                <textarea tabindex="4" id="tracklist" name="tracklist" rows="5" cols="10"><?php if(isset($_POST['tracklist'])) echo htmlspecialchars($_POST['tracklist']); ?></textarea>
+            </div>
+            <div class="field">
+                <label for="tracklist">Timings: <sup><a href="help.html" target="new">Help</a></sup>
+                </label>
+                <textarea tabindex="5" id="regions_list" name="regions_list" rows="5" cols="10"><?php if(isset($_POST['regions_list'])) echo htmlspecialchars($_POST['regions_list']); ?></textarea>
+            </div>
         </div>
-        <div class="field">
-           <label for="title">Title:</label>
-           <input type="text" id="title" name="title" value="<?php if(isset($_POST['title'])) echo htmlspecialchars($_POST['title']); ?>" />
+        <div id="cue_ready">
+            <input type="hidden" name="generate" id="generate" />
+            <textarea id="cue" name="cue" rows="5" cols="10" readonly="readonly"><?php if(isset($_POST['cue'])) echo htmlspecialchars($_POST['cue']); ?></textarea>
+
         </div>
-        <div class="field">
-           <label for="filename">File name:</label>
-           <input type="text" id="filename" name="filename" value="<?php if(isset($_POST['filename'])) echo htmlspecialchars($_POST['filename']); ?>" />
-        </div>
-        <div class="field">
-           <label for="tracklist">Tracklist:</label>
-           <textarea id="tracklist" name="tracklist" rows="5" cols="10"><?php if(isset($_POST['tracklist'])) echo htmlspecialchars($_POST['tracklist']); ?></textarea>
-        </div>
-        <div class="field">
-           <label for="tracklist">Timings: <sup><a href="help.html" target="new">Help</a></sup>
-           </label>
-           <textarea id="regions_list" name="regions_list" rows="5" cols="10"><?php if(isset($_POST['regions_list'])) echo htmlspecialchars($_POST['regions_list']); ?></textarea>
-        </div>
-    </div>
-    <div id="cue_ready">
-        <input type="hidden" name="generate" id="generate" />
-        <textarea id="cue" name="cue" rows="5" cols="10" readonly="readonly"><?php if(isset($_POST['cue'])) echo htmlspecialchars($_POST['cue']); ?></textarea>
-        
-    </div>
     </form>
-    
+
 </div>
 
 <?php require_once '_layout/footer.html'; ?>
