@@ -1,132 +1,164 @@
-var getRegionsList = function(string)
-{
-    var regions_list = new Array();
-    var contents = string.split('\n');
+define([
+    'cue/parser',
+], function(parser) {
 
-    line = 1;
-    for (i = 0; i < contents.length; i++) {
+    var tests = {
+        'title': function(test) {
+            var value = ' Russia Goes Clubbing 249 (2013-07-17) (Live @ Zouk, Singapore) ';
+            var actual = parser.title(value);
+            var expected = 'Russia Goes Clubbing 249 (2013-07-17) (Live @ Zouk, Singapore)';
+            test.strictEqual(actual, expected);
 
-//        var row = $.trim(contents[i]);
-        var row = contents[i];
+            test.done();
+        },
+        'perfomer': function(test) {
+            var value = ' Bobina ';
+            var actual = parser.perfomer(value);
+            var expected = 'Bobina';
+            test.strictEqual(actual, expected);
 
-        // find matches of soundforge or audacity format
+            test.done();
+        },
+        'filename': function(test) {
+            var value = ' Bobina - Russia Goes Clubbing #249 [Live @ Zouk, Singapore].mp3 ';
+            var actual = parser.filename(value);
+            var expected = 'Bobina - Russia Goes Clubbing #249 [Live @ Zouk, Singapore].mp3';
+            test.strictEqual(actual, expected);
 
-        var matches = row.match(/(\d{2}:\d{2}:\d{2}[\.,:]\d{2})/i);
-        if (null != matches) {
-            var time = matches[0].split(':');
-            var hr = time.shift();
-            var mn = time.shift();
+            test.done();
+        },
+        'tracklist': function(test) {
+            var value = '\
+02:41 Bobina - Miami "Echoes"';
+            var actual = parser.tracklist(value);
+            var expected = {
+                0: {
+                    perfomer: "Bobina",
+                    time: "02:41:00",
+                    title: "Miami Echoes",
+                    track: 1,
+                },
+            };
+            test.deepEqual(actual, expected);
 
+            test.done();
+        },
+        'splitTitlePerfomer': function(test) {
+            var value = "02:41 Dinka - Elements (EDX's 5un5hine Remix)";
+            var actual = parser._splitTitlePerfomer(value);
+            var expected = ["02:41 Dinka", "Elements (EDX's 5un5hine Remix)"];
 
+            test.deepEqual(actual, expected);
 
-            // frames can be separated by .(dot) or :(colon) or ,(comma)
-            if (time.length > 1) {
-                var sc = time.shift();
-                var fr = time.shift();
-            } else {
-                var sc_fr = time.shift();
-                switch (true)
-                {
-                    case -1 != sc_fr.indexOf('.') :
-                        sc_fr = sc_fr.split('.');
-                        var sc = sc_fr.shift();
-                        var fr = sc_fr.shift();
-                        break;
-                    case -1 != sc_fr.indexOf(',') :
-                        sc_fr = sc_fr.split(',');
-                        var sc = sc_fr.shift();
-                        var fr = sc_fr.shift();
-                        break;
-                }
-            }
+            test.done();
+        },
+        'splitTitlePerfomerFail': function(test) {
+            var value = "02:41 Dinka  Elements (EDX's 5un5hine Remix)";
+            var actual = parser._splitTitlePerfomer(value);
+            var expected = ["02:41 Dinka  Elements (EDX's 5un5hine Remix)"];
 
-            mn = parseInt(mn, 10) + (parseInt(hr, 10) * 60);
-            regions_list[line] = (mn < 10 ? '0' + mn : mn) + ':' + sc + ':' + fr;
+            test.deepEqual(actual, expected);
 
-            line++;
-            continue;
-        }
+            test.done();
+        },
+        'cleanTitle' : function(test) {
+            var value = 'Elements (EDX "5un5hine" Remix)';
+            var actual = parser._cleanTitle(value);
+            var expected = 'Elements (EDX 5un5hine Remix)';
 
+            test.strictEqual(actual, expected, 'Expected: ' + expected + ' | Actual: ' + actual);
 
-        var matches = row.match(/(\d{1,5}).(\d{6})/i);
-        if (null != matches) {
-            var milliseconds = matches[2];
-            var seconds = matches[1];
-            var minutes = Math.floor(seconds / 60);
-
-            var mn = minutes > 0 ? minutes : 0;
-            var sc = seconds % 60;
-            // frames can not be more than 74, so floor them instead of round
-            var fr = Math.floor(parseFloat(0 + '.' + milliseconds) * 75);
-
-            regions_list[line] =
-                (mn < 10 ? '0' + mn : mn) + ':' +
-                (sc < 10 ? '0' + sc : sc) + ':' +
-                (fr < 10 ? '0' + fr : fr);
-
-            line++;
-            continue;
-        }
-
-        // try to recognise raw cue timings
-        var matches = row.match(/(\d{2}:\d{2}:\d{2})/i);
-        if (null != matches) {
-            var time = matches[0].split(':');
-            var mn = parseInt(time[0], 10);
-            var sc = parseInt(time[1], 10);
-            var fr = parseInt(time[2], 10);
-
-            regions_list[line] =
-                (mn < 10 ? '0' + mn : mn) + ':' +
-                (sc < 10 ? '0' + sc : sc) + ':' +
-                (fr < 10 ? '0' + fr : fr);
-
-            line++;
-            continue;
-        }
-    }
-
-    return regions_list;
-};
-
-
-
-var perfomers = [
-    '01.[18:02] Giuseppe – Fallen',
-    '10:57 02. Space Manoeuvres - "Stage One [Tilt\'s Apollo 11 Mix]"',
-    '[08:45] 03. 8 Ball - Sweet',
-];
-
-this.parser = {};
-perfomers.forEach(function(perfomer) {
-    this.parser[perfomer] = function(test) {
-        var matches = perfomer.match(/^(\d{2}\.)?\[?(\d{2,3}:\d{2})\]?.*$/i);
-        if (null != matches && matches.length > 1) {
-            test.ok(true, matches[2]);
-        } else {
-            test.ok(false);
-        }
-
-        test.done();
+            test.done();
+        },
     };
-});
 
-
-var timings = [
-    '00:12:65:32',
-    '723.213333     1010.439546',
-    '01:05:49.30',
-    '01:05:49,30    01:05:49,30     01:05:49,30',
-    "TRACK 01 AUDIO \n\
-      INDEX 01 10:45:00",
-];
-
-timings.forEach(function(timing) {
-    this.parser[timing] = function(test) {
-        var result = getRegionsList(timing);
-        console.log(result);
-        test.ok(result[1], result[1]);
-
-        test.done();
+    var timePerfomers = {
+        '[08:45] 03. 8 Ball': {
+            time: '08:45',
+            perfomer: '] 03. 8 Ball',
+        },
+        '01.[18:02] Giuseppe': {
+            time: '18:02',
+            perfomer: '] Giuseppe',
+        },
+        '10:57 02. Space Manoeuvres': {
+            time: '10:57',
+            perfomer: '02. Space Manoeuvres',
+        },
+        ' CJ Bolland ': {
+            time: '',
+            perfomer: 'CJ Bolland',
+        },
+        '04 Mr. Fluff': {
+            time: '',
+            perfomer: '04 Mr. Fluff',
+        },
+        '56:53 T.O.M': {
+            time: '56:53',
+            perfomer: 'T.O.M',
+        },
+        '1:02:28 Mossy': {
+            time: '1:02:28',
+            perfomer: 'Mossy',
+        },
     };
+
+    Object.keys(timePerfomers).forEach(function(key) {
+        tests['Parse: ' + key] = function(test) {
+            var actual = parser._splitTimePerfomer(key);
+            var actualTime = actual.time;
+            var actualPerfomer = actual.perfomer;
+
+            var expectedTime = timePerfomers[key].time;
+            var expectedPerfomer = timePerfomers[key].perfomer;
+
+            test.strictEqual(actualTime, expectedTime, 'Expected: ' + expectedTime + ' | Actual: ' + actualTime);
+            test.strictEqual(actualPerfomer, expectedPerfomer, 'Expected: ' + expectedPerfomer + ' | Actual: ' + actualPerfomer);
+
+            test.done();
+        };
+    });
+
+
+    var perfomers = {
+        '] Giuseppe': 'Giuseppe',
+        '02. Space Manoeuvres': 'Space Manoeuvres',
+        '04 Mr. Fluff': 'Mr. Fluff',
+        'CJ Bolland': 'CJ Bolland',
+        '08) CJ Bolland': 'CJ Bolland',
+        '] 03. 8 Ball': '8 Ball',
+    };
+
+    Object.keys(perfomers).forEach(function(key) {
+        tests['Clean: ' + key] = function(test) {
+            var actual = parser._cleanPerfomer(key);
+            var expected = perfomers[key];
+
+            test.strictEqual(actual, expected, 'Expected: ' + expected + ' | Actual: ' + actual);
+
+            test.done();
+        };
+    });
+
+
+    var times = {
+        '1:02:28': '62:28:00',
+        '56:63': '56:63:00',
+        '': '00:00:00',
+    };
+
+    Object.keys(times).forEach(function(key) {
+        tests['Cast time: ' + key] = function(test) {
+            var actual = parser._castTime(key);
+            var expected = times[key];
+
+            test.strictEqual(actual, expected, 'Expected: ' + expected + ' | Actual: ' + actual);
+
+            test.done();
+        };
+    });
+
+
+    return tests;
+
 });
