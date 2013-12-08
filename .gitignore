@@ -2,3 +2,5 @@
 /_counter.dat
 /nbproject
 .idea
+/node_modules
+npm-debug.log
