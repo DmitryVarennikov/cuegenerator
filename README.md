@@ -4,6 +4,9 @@ A small utility which facilitates creating cue files from tracklists.
 
 ## Tracklist highlights
 
+* In case if a local performer is absent the global one is used, e.g.
+![](https://raw.github.com/dVaffection/cuegenerator/master/images/README/global-performer.png)
+
 * Perfomer and title track separators:
     * `' - '` — 45 (hyphen-minus)
     * `' – '` — 8211 (en dash)
