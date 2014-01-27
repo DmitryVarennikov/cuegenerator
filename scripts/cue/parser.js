@@ -1,13 +1,14 @@
 define([
-], function() {
+], function () {
+    'use strict';
 
-    if (!String.prototype.trim) {
-        String.prototype.trim = function() {
+    if (! String.prototype.trim) {
+        String.prototype.trim = function () {
             return this.replace(/^\s+|\s+$/g, '');
         };
     }
 
-    function getPerfomer(string) {
+    function getPerformer(string) {
         return string.trim();
     }
 
@@ -19,8 +20,8 @@ define([
         return string.trim();
     }
 
-    var splitTitlePerfomer = function(string) {
-        // вот такими символами могут быть разделены perfomer и title
+    var splitTitlePerformer = function (string) {
+        // that's how we tell performer and title apart
         var separators =
             [
                 ' - ', // 45 hyphen-minus
@@ -31,56 +32,66 @@ define([
             ];
 
         // foreach, switch are toooooooooo slow!
+        var splitted = [],
+            performer = '',
+            title = '';
 
-        if (-1 !== string.search(separators[0])) {
-            var splitted = string.split(separators[0]);
-        } else if (-1 !== string.search(separators[1])) {
-            var splitted = string.split(separators[1]);
-        } else if (-1 !== string.search(separators[2])) {
-            var splitted = string.split(separators[2]);
-        } else if (-1 !== string.search(separators[3])) {
-            var splitted = string.split(separators[3]);
-        } else if (-1 !== string.search(separators[4])) {
-            var splitted = string.split(separators[4]);
+        if (- 1 !== string.search(separators[0])) {
+            splitted = string.split(separators[0]);
+        } else if (- 1 !== string.search(separators[1])) {
+            splitted = string.split(separators[1]);
+        } else if (- 1 !== string.search(separators[2])) {
+            splitted = string.split(separators[2]);
+        } else if (- 1 !== string.search(separators[3])) {
+            splitted = string.split(separators[3]);
+        } else if (- 1 !== string.search(separators[4])) {
+            splitted = string.split(separators[4]);
         } else {
-            var splitted = [string];
+            splitted = [string];
         }
 
-        for (var i = 0; i < splitted.length; i++) {
-            splitted[i] = splitted[i].trim();
+        // if we the given string wasn't splitted then we've got just title (performer assumed to be global one)
+        if (1 === splitted.length) {
+            performer = '';
+            title = splitted.shift();
+        } else {
+            performer = splitted.shift();
+            title = splitted.join(' ');
         }
-        return splitted;
+
+        return {
+            performer: performer.trim(),
+            title:     title.trim()
+        };
     };
 
-    var splitTimePerfomer = function(string) {
+    var separateTime = function (string) {
 //        console.log(string);
-        var time = '', perfomer = '';
+        var time = '',
+            residue = '';
 
         var pattern = /^(?:\d{2}\.)?\[?((?:\d{1,2}:)?\d{2,3}:\d{2})\]?.*$/i;
         var matches = string.match(pattern);
         if (matches && matches[1]) {
             time = matches[1].trim();
-            perfomer = string.substring(string.indexOf(matches[1]) + matches[1].length).trim();
+            residue = string.substring(string.indexOf(matches[1]) + matches[1].length).trim();
         } else {
-            perfomer = string.trim();
+            residue = string.trim();
         }
 
-//        console.log(time, '###', perfomer);
-//        console.log('-----------------------------------------');
-
         return {
-            time: time,
-            perfomer: perfomer,
+            time:    time,
+            residue: residue
         };
     };
 
     /**
      * Accept time in format either hr:mn:sc or mn:sc
      *
-     * @param string
+     * @param {String}
      * @returns mn:sc:fr
      */
-    var castTime = function(string) {
+    var castTime = function (string) {
         string = string.trim();
 
         var pattern = /^\d{1,2}:\d{2}:\d{2}$/;
@@ -105,59 +116,72 @@ define([
         return string;
     };
 
-    var cleanPerfomer = function(string) {
-//        console.log(string);
-
+    var cleanOffTime = function (string) {
         var pattern = /^(?:\]? )?(?:\d{2}\)?\.? )?(.*)$/i;
         var matches = string.match(pattern);
-//        console.log(matches);
 
         if (matches && matches[1]) {
             string = matches[1];
         }
 
-        // remove double quotes
-        string = string.replace(/"/g, '');
-
-//        console.log(string);
-//        console.log('-----------------------------------------');
+        string = cleanDoubleQuotes(string);
 
         return string;
     };
 
-    var cleanTitle = function(string) {
+    var cleanDoubleQuotes = function (string) {
         // remove double quotes
         string = string.replace(/"/g, '');
 
         return string;
     }
 
+    /**
+     * @param {String}
+     * @returns {Array}
+     */
     function getTracklist(string) {
-        var tracklist = [];
-        var contents = string.split('\n');
+        var tracklist = [],
+            contents = [],
+            row,
+            performerTitle,
+            timePerformer,
+            timeTitle,
+            time,
+            performer,
+            title;
 
-        for (var i = 0, track = 1; i < contents.length; i++, track++) {
+        contents = string.split('\n');
 
-            var row = contents[i].trim();
-            if (!row.length) {
-                track--;
+        for (var i = 0, track = 1; i < contents.length; i ++, track ++) {
+
+            row = contents[i].trim();
+            if (! row.length) {
+                track --;
                 continue;
             }
 
-            var perfomertitle = splitTitlePerfomer(row);
-            var timePerfomer = perfomertitle.shift();
+            performerTitle = splitTitlePerformer(row);
 
-            var result = splitTimePerfomer(timePerfomer);
-            var time = castTime(result.time);
-            var perfomer = cleanPerfomer(result.perfomer);
+            if (performerTitle.performer) {
+                timePerformer = separateTime(performerTitle.performer);
 
-            var title = cleanTitle(perfomertitle.length > 0 ? perfomertitle.join(' ') : '');
+                time = castTime(timePerformer.time);
+                performer = cleanOffTime(timePerformer.residue);
+                title = cleanDoubleQuotes(performerTitle.title);
+            } else {
+                timeTitle = separateTime(performerTitle.title);
+                time = castTime(timeTitle.time);
+                performer = '';
+                title = cleanOffTime(timeTitle.residue);
+            }
+
 
             tracklist.push({
-                track: track,
-                perfomer: perfomer,
-                title: title,
-                time: time
+                track:     track,
+                performer: performer,
+                title:     title,
+                time:      time
             });
         }
 
@@ -165,10 +189,11 @@ define([
     }
 
     function getRegionsList(string) {
-        var regionsList = [], time = '';
+        var regionsList = [],
+            time = '';
         var contents = string.split('\n');
 
-        for (var i = 0; i < contents.length; i++) {
+        for (var i = 0; i < contents.length; i ++) {
             var row = contents[i].trim();
 
             // find matches of soundforge or audacity format
@@ -180,7 +205,6 @@ define([
                 var mn = time.shift();
 
 
-
                 // frames can be separated by .(dot) or :(colon) or ,(comma)
                 if (time.length > 1) {
                     var sc = time.shift();
@@ -188,12 +212,12 @@ define([
                 } else {
                     var sc_fr = time.shift();
                     switch (true) {
-                        case -1 != sc_fr.indexOf('.') :
+                        case - 1 != sc_fr.indexOf('.') :
                             sc_fr = sc_fr.split('.');
                             var sc = sc_fr.shift();
                             var fr = sc_fr.shift();
                             break;
-                        case -1 != sc_fr.indexOf(',') :
+                        case - 1 != sc_fr.indexOf(',') :
                             sc_fr = sc_fr.split(',');
                             var sc = sc_fr.shift();
                             var fr = sc_fr.shift();
@@ -221,8 +245,8 @@ define([
 
                 time =
                     (mn < 10 ? '0' + mn : mn) + ':' +
-                    (sc < 10 ? '0' + sc : sc) + ':' +
-                    (fr < 10 ? '0' + fr : fr);
+                        (sc < 10 ? '0' + sc : sc) + ':' +
+                        (fr < 10 ? '0' + fr : fr);
                 regionsList.push(time);
 
                 continue;
@@ -238,8 +262,8 @@ define([
 
                 time =
                     (mn < 10 ? '0' + mn : mn) + ':' +
-                    (sc < 10 ? '0' + sc : sc) + ':' +
-                    (fr < 10 ? '0' + fr : fr);
+                        (sc < 10 ? '0' + sc : sc) + ':' +
+                        (fr < 10 ? '0' + fr : fr);
                 regionsList.push(time);
 
                 continue;
@@ -250,16 +274,16 @@ define([
     }
 
     return {
-        perfomer: getPerfomer,
-        title: getTitle,
-        filename: getFilename,
-        tracklist: getTracklist,
-        regionsList: getRegionsList,
-        _splitTitlePerfomer: splitTitlePerfomer,
-        _splitTimePerfomer: splitTimePerfomer,
-        _cleanPerfomer: cleanPerfomer,
-        _cleanTitle: cleanTitle,
-        _castTime: castTime,
+        performer:            getPerformer,
+        title:                getTitle,
+        filename:             getFilename,
+        tracklist:            getTracklist,
+        regionsList:          getRegionsList,
+        _splitTitlePerformer: splitTitlePerformer,
+        _separateTime:        separateTime,
+        _cleanOffTime:        cleanOffTime,
+        _cleanDoubleQuotes:   cleanDoubleQuotes,
+        _castTime:            castTime
     };
 
 });

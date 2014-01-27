@@ -1,7 +1,8 @@
 define([
-], function() {
+], function () {
+    'use strict';
 
-    function formatPerfomer(string) {
+    function formatPerformer(string) {
         return 'PERFORMER "' + string + '"\n';
     }
 
@@ -13,26 +14,30 @@ define([
         return 'FILE "' + string + '" MP3\n';
     }
 
-    function formatTracklist(tracklist, regionsList) {
-        var output = '';
+    function formatTracklist(tracklist, regionsList, globalPerformer) {
+        var output = '',
+            row,
+            performer;
 
-        for (var i = 0; i < tracklist.length; i++) {
-            var row = tracklist[i];
+        for (var i = 0; i < tracklist.length; i ++) {
+            row = tracklist[i];
+
+            performer = row.performer || globalPerformer;
 
             output += '  TRACK ' + (row.track < 10 ? '0' + row.track : row.track) + ' AUDIO\n';
-            output += '    PERFORMER "' + row.perfomer + '"\n';
+            output += '    PERFORMER "' + performer + '"\n';
             output += '    TITLE "' + row.title + '"\n';
-            output += '    INDEX 01 ' + (regionsList[i] ? regionsList[i] : row.time) + '\n';
+            output += '    INDEX 01 ' + (regionsList[i] || row.time) + '\n';
         }
 
         return output;
     }
 
     return {
-        perfomer: formatPerfomer,
-        title: formatTitle,
-        filename: formatFilename,
-        tracklist: formatTracklist,
+        performer: formatPerformer,
+        title:     formatTitle,
+        filename:  formatFilename,
+        tracklist: formatTracklist
     };
 
 });

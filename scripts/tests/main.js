@@ -1,18 +1,20 @@
 requirejs.config({
     baseUrl: '../',
     urlArgs: "bust=" + (new Date()).getTime(),
-    paths: {
-        nodeunit: 'tests/nodeunit.min',
-    },
+    paths:   {
+        nodeunit: 'tests/nodeunit.min'
+    }
 });
 
 require([
     'tests/parser',
-    'nodeunit',
-], function(parserTests) {
+    'tests/formatter',
+    'nodeunit'
+], function (parserTestSuite, formatterTestSuite) {
 
     nodeunit.run({
-        'Parser': parserTests,
+        'Parser':    parserTestSuite,
+        'Formatter': formatterTestSuite
     });
 
 });

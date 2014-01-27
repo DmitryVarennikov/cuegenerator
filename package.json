@@ -1,0 +1,24 @@
+{
+    "name":            "CUEgenerator",
+    "version":         "0.0.0",
+    "description":     "A small utility which facilitates creating cue files from tracklists.",
+    "dependencies":    {
+
+    },
+    "devDependencies": {
+        "requirejs": "~2.1"
+    },
+    "scripts":         {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository":      {
+        "type": "git",
+        "url":  "git://github.com/dVaffection/cuegenerator.git"
+    },
+    "author":          "dV",
+    "license":         "ISC",
+    "bugs":            {
+        "url": "https://github.com/dVaffection/cuegenerator/issues"
+    },
+    "homepage":        "https://github.com/dVaffection/cuegenerator"
+}

@@ -1,38 +1,43 @@
 define([
     'cue/parser',
     'cue/formatter',
-    'jquery',
-], function(parser, formatter) {
+    'jquery'
+], function (parser, formatter) {
+    'use strict';
 
-    function createCue(perfomer, title, filename, tracklist, regionsList) {
-        var cue = '';
+    function createCue(performer, title, filename, tracklist, regionsList) {
+        var cue,
+            performerFormatted,
+            titleFormatted,
+            filenameFormatted,
+            tracklistFormatted;
 
-        perfomer = parser.perfomer(perfomer);
-        perfomer = formatter.perfomer(perfomer);
+        performer = parser.performer(performer);
+        performerFormatted = formatter.performer(performer);
 
         title = parser.title(title);
-        title = formatter.title(title);
+        titleFormatted = formatter.title(title);
 
         filename = parser.filename(filename);
-        filename = formatter.filename(filename);
+        filenameFormatted = formatter.filename(filename);
 
         tracklist = parser.tracklist(tracklist);
         regionsList = parser.regionsList(regionsList);
-        tracklist = formatter.tracklist(tracklist, regionsList);
+        tracklistFormatted = formatter.tracklist(tracklist, regionsList, performer);
 
-        cue = perfomer + title + filename + tracklist;
+        cue = performerFormatted + titleFormatted + filenameFormatted + tracklistFormatted;
 
         return cue;
     }
 
-    $('#cue_fields input, #cue_fields textarea').keyup(function(e) {
-        var perfomer = $('#perfomer').val();
+    $('#cue_fields input, #cue_fields textarea').keyup(function (e) {
+        var performer = $('#perfomer').val();
         var title = $('#title').val();
         var filename = $('#filename').val();
         var tracklist = $('#tracklist').val();
         var regionsList = $('#regions_list').val();
 
-        var cue = createCue(perfomer, title, filename, tracklist, regionsList);
+        var cue = createCue(performer, title, filename, tracklist, regionsList);
         $('#cue').val(cue);
     });
 
