@@ -1,13 +1,13 @@
 /* CSS Document */
 * {
-    margin:0px;
-    padding:0px;
-    outline:none;
+    margin: 0px;
+    padding: 0px;
+    outline: none;
 }
 
 body {
-    font-family:"Trebuchet MS",Arial,Tahoma;
-    background-color:#4d4d4d;
+    font-family: "Trebuchet MS", Arial, Tahoma;
+    background-color: #4d4d4d;
     font-size: 17px;
 }
 
@@ -16,50 +16,82 @@ input, textarea {
 }
 
 a img {
-    border:0;
+    border: 0;
+}
+
+#chrome-extension {
+    position: absolute;
+    display: none;
+    border: 1px solid #000;
+    border-top: none;
+    color: #000;
+    font-weight: bold;
+    top: 0;
+}
+
+#chrome-extension .text {
+    float: left;
+    background-color: #FCDF79;
+    padding: 6px 10px;
+    -moz-border-bottom-left-radius: 3px; /* Firefox */
+    -webkit-border-bottom-left-radius: 3px; /* Safari, Chrome */
+    border-bottom-left-radius: 3px; /* CSS3 */
+}
+
+#chrome-extension .sign {
+    float: left;
+    background-color: #fcce4a;
+    padding: 6px 10px;
+    -moz-border-bottom-right-radius: 3px; /* Firefox */
+    -webkit-border-bottom-right-radius: 3px; /* Safari, Chrome */
+    border-bottom-right-radius: 3px; /* CSS3 */
 }
 
 #container {
-    width:1000px;
-    margin:0 auto;
+    width: 1000px;
+    margin: 0 auto;
     margin-top: 20px;
-    padding:20px;
-    overflow:auto;
+    padding: 20px;
+    overflow: auto;
 }
 
 #logo {
     float: left;
-    background:url(../images/CUEgenerator.png) no-repeat left top;
+    background: url(../images/CUEgenerator.png) no-repeat left top;
     width: 217px;
     height: 58px;
 }
-    #logo a {
-        color: transparent;
-    }
+
+#logo a {
+    color: transparent;
+}
+
 span#counter {
     color: #FCDF79;
 }
-
 
 #feedback {
     float: right;
 }
 
 #feedback a {
-	color: #FCDF79;
+    color: #FCDF79;
     display: block;
     float: right;
 }
+
 #feedback a:hover {
     color: #fff9e6;
 }
-    #feedback .google-plus {
-        float: left;
-    }
-    #feedback .yandex-share {
-        float: left;
-        margin-right: 10px;
-    }
+
+#feedback .google-plus {
+    float: left;
+}
+
+#feedback .yandex-share {
+    float: left;
+    margin-right: 10px;
+}
 
 .clear {
     clear: both;
@@ -69,7 +101,7 @@ span#counter {
     float: right;
     margin: 0;
     padding: 0 10px;
-    background-color:#FCDF79;
+    background-color: #FCDF79;
     font-size: 17px;
     font-weight: bold;
     height: 28px;
@@ -93,46 +125,53 @@ input, textarea {
     margin-top: 20px;
     float: left;
 }
-    #cue_fields .field {
-        clear:both; 
-        line-height:25px;
-    }
-    #cue_fields .field label {
-        float:left;
-        display: block;
-        width: 100px;
-        padding-right:10px;
-    }
-        #cue_fields .field label sup a {
-            color: #FCDF79;
-            font-size: 12px;
-        }
-    #cue_fields .field input, 
-    #cue_fields .field textarea {
-        float:left;
-        display: block;
-        width: 350px;
-        height: 20px;
-        margin: 0;
-    }
-    #cue_fields .field textarea#tracklist {
-        height: 200px;
-    }
-    #cue_fields .field textarea#regions_list {
-        height: 100px;
-    }
+
+#cue_fields .field {
+    clear: both;
+    line-height: 25px;
+}
+
+#cue_fields .field label {
+    float: left;
+    display: block;
+    width: 100px;
+    padding-right: 10px;
+}
+
+#cue_fields .field label sup a {
+    color: #FCDF79;
+    font-size: 12px;
+}
+
+#cue_fields .field input,
+#cue_fields .field textarea {
+    float: left;
+    display: block;
+    width: 350px;
+    height: 20px;
+    margin: 0;
+}
+
+#cue_fields .field textarea#tracklist {
+    height: 200px;
+}
+
+#cue_fields .field textarea#regions_list {
+    height: 100px;
+}
 
 #cue_ready {
     margin-left: 20px;
     margin-top: 20px;
     float: right;
 }
-    #cue_ready #cue {
-        height: 480px;
-        width: 510px;
-        background:url(../images/read-only.gif) no-repeat center;
-        background-color: #fff9e6;
-    }
+
+#cue_ready #cue {
+    height: 480px;
+    width: 510px;
+    background: url(../images/read-only.gif) no-repeat center;
+    background-color: #fff9e6;
+}
 
 #help {
     width: 900px;
@@ -140,13 +179,15 @@ input, textarea {
     margin-top: 20px;
 }
 
-    #help h2 {
-        font-size: 22px;
-    }
-    #help img {
-        margin: 10px 0;
-        border: 1px solid #000;
-    }
-    #help div.delimiter {
-        margin-bottom: 50px;
-    }
+#help h2 {
+    font-size: 22px;
+}
+
+#help img {
+    margin: 10px 0;
+    border: 1px solid #000;
+}
+
+#help div.delimiter {
+    margin-bottom: 50px;
+}
