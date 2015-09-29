@@ -1,4 +1,5 @@
 <?php
+// NOT USED: see index.php for reference
 session_start();
 
 if (array_key_exists('cue', $_SESSION)) {
