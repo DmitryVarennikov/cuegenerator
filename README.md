@@ -2,6 +2,9 @@ CUEgenerator
 =============
 A small utility which facilitates creating cue files from tracklists.
 
+## Build
+`r.js -o scripts/build-config.js`
+
 ## Tracklist highlights
 
 * In case if a local performer is absent the global one is used, e.g.
