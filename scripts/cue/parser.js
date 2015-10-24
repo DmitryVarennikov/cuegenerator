@@ -1,5 +1,4 @@
-define([
-], function () {
+define([], function () {
     'use strict';
 
     if (! String.prototype.trim) {
@@ -196,6 +195,27 @@ define([
         for (var i = 0; i < contents.length; i ++) {
             var row = contents[i].trim();
 
+            // find Nero/Winamp formats mm(m):ss(:|.)ii
+            var matches = row.match(/^(\d{2,3}:\d{2}[\.:]\d{2})$/i);
+            if (null != matches) {
+                var time = matches[0].split(':');
+                var mn = time.shift();
+                if (time.length == 1) {
+                    var sc_fr = time[0].split('.');
+                    var sc = sc_fr.shift();
+                    var fr = sc_fr.shift();
+                } else {
+                    var sc = time.shift();
+                    var fr = time.shift();
+                }
+
+
+                time = mn + ':' + sc + ':' + fr;
+                regionsList.push(time);
+
+                continue;
+            }
+
             // find matches of soundforge or audacity format
 
             var matches = row.match(/(\d{2}:\d{2}:\d{2}[\.,:]\d{2})/i);
@@ -245,8 +265,8 @@ define([
 
                 time =
                     (mn < 10 ? '0' + mn : mn) + ':' +
-                        (sc < 10 ? '0' + sc : sc) + ':' +
-                        (fr < 10 ? '0' + fr : fr);
+                    (sc < 10 ? '0' + sc : sc) + ':' +
+                    (fr < 10 ? '0' + fr : fr);
                 regionsList.push(time);
 
                 continue;
@@ -262,8 +282,8 @@ define([
 
                 time =
                     (mn < 10 ? '0' + mn : mn) + ':' +
-                        (sc < 10 ? '0' + sc : sc) + ':' +
-                        (fr < 10 ? '0' + fr : fr);
+                    (sc < 10 ? '0' + sc : sc) + ':' +
+                    (fr < 10 ? '0' + fr : fr);
                 regionsList.push(time);
 
                 continue;

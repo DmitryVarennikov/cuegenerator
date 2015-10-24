@@ -183,6 +183,27 @@ define([
     });
 
 
+    var regionsList = {
+        ' Marker 06      01:10:38:52':         '70:38:52',
+        ' 22                     02:01:50.04': '121:50:04',
+        ' 22                     02:01:50,04': '121:50:04',
+        ' 5541.293333    7143.640000     19':  '92:21:21',
+        " 50:10:01 \n":                        '50:10:01',
+        " 120:10.01 \n":                       '120:10:01'
+    };
+
+    Object.keys(regionsList).forEach(function (key) {
+        tests['Cast timing: ' + key] = function (test) {
+            var actual = parser.regionsList(key);
+            var expected = regionsList[key];
+
+            test.strictEqual(actual[0], expected, 'Expected: ' + expected + ' | Actual: ' + actual);
+
+            test.done();
+        };
+    });
+
+
     return tests;
 
 });
