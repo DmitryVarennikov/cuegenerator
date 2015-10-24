@@ -195,29 +195,9 @@ define([], function () {
         for (var i = 0; i < contents.length; i ++) {
             var row = contents[i].trim();
 
-            // find Nero/Winamp formats mm(m):ss(:|.)ii
-            var matches = row.match(/^(\d{2,3}:\d{2}[\.:]\d{2})$/i);
-            if (null != matches) {
-                var time = matches[0].split(':');
-                var mn = time.shift();
-                if (time.length == 1) {
-                    var sc_fr = time[0].split('.');
-                    var sc = sc_fr.shift();
-                    var fr = sc_fr.shift();
-                } else {
-                    var sc = time.shift();
-                    var fr = time.shift();
-                }
 
 
-                time = mn + ':' + sc + ':' + fr;
-                regionsList.push(time);
-
-                continue;
-            }
-
-            // find matches of soundforge or audacity format
-
+            // Soundforge or Audition
             var matches = row.match(/(\d{2}:\d{2}:\d{2}[\.,:]\d{2})/i);
             if (null != matches) {
                 var time = matches[0].split(':');
@@ -252,6 +232,28 @@ define([], function () {
                 continue;
             }
 
+            // find Nero/Winamp formats mm(m):ss(:|.)ii
+            var matches = row.match(/(\d{2,3}:\d{2}[\.:]\d{2})/i);
+            if (null != matches) {
+                var time = matches[0].split(':');
+                var mn = time.shift();
+                if (time.length == 1) {
+                    var sc_fr = time[0].split('.');
+                    var sc = sc_fr.shift();
+                    var fr = sc_fr.shift();
+                } else {
+                    var sc = time.shift();
+                    var fr = time.shift();
+                }
+
+
+                time = mn + ':' + sc + ':' + fr;
+                regionsList.push(time);
+
+                continue;
+            }
+
+            // Audacity
             var matches = row.match(/(\d{1,5}).(\d{6})/i);
             if (null != matches) {
                 var milliseconds = matches[2];
