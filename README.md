@@ -23,7 +23,22 @@ A small utility which facilitates creating cue files from tracklists.
     * `56:53 T.O.M'` → `56:53`
     * `1:02:28 Mossy` → `62:28`
 
-## Regions list recognition:
+## Regions list recognition
 * Sony Sound Forge format `dd:dd:dd[.,]dd`
 * Adobe Audition format `dd:dd:dd:dd`
 * Audacity format `ddddd.dddddd`
+
+## For developers
+`_config.php` is a pretty plain configuration file, this is an example of mine:
+```php
+<?php
+ini_set('date.timezone', 'America/Vancouver');
+
+
+define('DEBUG_MODE', true);
+define('COUNTER_FILENAME', '_counter.dat');
+
+error_reporting(DEBUG_MODE ? E_ALL | E_STRICT : 0);
+```
+
+`_counter.dat` is a plain text file where I keep a counter value. There's no predefined content, just make sure it has a writable permissions.
