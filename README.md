@@ -42,3 +42,6 @@ error_reporting(DEBUG_MODE ? E_ALL | E_STRICT : 0);
 ```
 
 `_counter.dat` is a plain text file where I keep a counter value. There's no predefined content, just make sure it has a writable permissions.
+
+**Also please notice there is a test suite located at** `/scripts/tests/index.html`
+This is highly important if you change cue formatter or parser 
