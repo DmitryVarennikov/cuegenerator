@@ -5,8 +5,11 @@
 
 <div  id="feedback">
     <?=LikeButtonHelper::choose(LOCALE)?>
-    <?//=$CONTENT['content']['feedback_email_link']?>
-    <a href="https://github.com/dVaffection/cuegenerator/issues" target="_blank">Leave your feedback here</a>
+    <div class="links">
+        <?=$CONTENT['content']['feedback_email_link']?><br>
+        <a href="https://github.com/dVaffection/cuegenerator/issues" target="_blank">or leave an issue on GutHub</a>
+    </div>
+
 </div>
 
 <div class="clear"></div>

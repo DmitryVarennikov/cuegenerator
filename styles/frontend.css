@@ -74,10 +74,11 @@ span#counter {
     float: right;
 }
 
+#feedback .links {
+    float: right;
+}
 #feedback a {
     color: #FCDF79;
-    display: block;
-    float: right;
 }
 
 #feedback a:hover {
