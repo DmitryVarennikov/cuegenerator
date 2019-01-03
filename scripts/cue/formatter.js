@@ -10,8 +10,8 @@ define([
         return 'TITLE "' + string + '"\n';
     }
 
-    function formatFilename(string) {
-        return 'FILE "' + string + '" MP3\n';
+    function formatFilename(name, type) {
+        return `FILE "${name}" ${type}\n`;
     }
 
     function formatTracklist(tracklist, regionsList, globalPerformer) {

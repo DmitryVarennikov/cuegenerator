@@ -5,7 +5,7 @@ define([
 ], function (parser, formatter) {
     'use strict';
 
-    function createCue(performer, title, filename, tracklist, regionsList) {
+    function createCue(performer, title, filename, fileType, tracklist, regionsList) {
         var cue,
             performerFormatted,
             titleFormatted,
@@ -19,7 +19,7 @@ define([
         titleFormatted = formatter.title(title);
 
         filename = parser.filename(filename);
-        filenameFormatted = formatter.filename(filename);
+        filenameFormatted = formatter.filename(filename, fileType);
 
         tracklist = parser.tracklist(tracklist);
         regionsList = parser.regionsList(regionsList);
@@ -30,15 +30,19 @@ define([
         return cue;
     }
 
-    $('#cue_fields input, #cue_fields textarea').keyup(function (e) {
-        var performer = $('#perfomer').val();
-        var title = $('#title').val();
-        var filename = $('#filename').val();
-        var tracklist = $('#tracklist').val();
-        var regionsList = $('#regions_list').val();
+    function onChange() {
+        const performer = $('#perfomer').val();
+        const title = $('#title').val();
+        const filename = $('#filename').val();
+        const fileType = $('#filetype').val();
+        const tracklist = $('#tracklist').val();
+        const regionsList = $('#regions_list').val();
 
-        var cue = createCue(performer, title, filename, tracklist, regionsList);
+        var cue = createCue(performer, title, filename, fileType, tracklist, regionsList);
         $('#cue').val(cue);
-    });
+    }
+
+    $('#cue_fields input, #cue_fields textarea').keyup(onChange);
+    $('#cue_fields select').change(onChange);
 
 });
