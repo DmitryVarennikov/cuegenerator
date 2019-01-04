@@ -19,8 +19,8 @@ define([
             test.done();
         },
         formatFilename:  function (test) {
-            var actual = formatter.filename('Bobina - Russia Goes Clubbing #272.cue');
-            var expected = 'FILE "Bobina - Russia Goes Clubbing #272.cue" MP3\n';
+            var actual = formatter.filename('Bobina - Russia Goes Clubbing #272.cue', 'WAVE');
+            var expected = 'FILE "Bobina - Russia Goes Clubbing #272.cue" WAVE\n';
 
             test.equal(actual, expected, 'Expected: ' + expected + ' | Actual: ' + actual);
             test.done();

@@ -3,7 +3,10 @@ CUEgenerator
 A small utility which facilitates creating cue files from tracklists.
 
 ## Build
-`r.js -o scripts/build-config.js`
+```
+npm install -g requirejs
+r.js -o scripts/build-config.js
+```
 
 ## Tracklist highlights
 
