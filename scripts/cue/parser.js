@@ -103,7 +103,7 @@ define([], function () {
             mn = hr * 60 + mn;
             string = mn + ':' + sc + ':00';
         } else {
-            var pattern = /^\d{2}:\d{2}$/;
+            var pattern = /^\d{2,3}:\d{2}$/;
             var matches = string.match(pattern);
             if (matches) {
                 string = string + ':00';
