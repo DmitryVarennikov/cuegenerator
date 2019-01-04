@@ -112,7 +112,7 @@ label {
     color: #fff9e6;
 }
 
-input, textarea {
+input, textarea, select {
     background-color: #fff9e6;
     border: 1px solid #000;
     resize: none;
@@ -145,7 +145,8 @@ input, textarea {
 }
 
 #cue_fields .field input,
-#cue_fields .field textarea {
+#cue_fields .field textarea,
+#cue_fields .field select {
     float: left;
     display: block;
     width: 350px;

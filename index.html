@@ -29,14 +29,23 @@ require_once '_layout/header.html';
                 <label for="filename">File name:</label>
                 <input tabindex="3" autocomplete="off" type="text" id="filename" name="filename" value="<?php if(isset($_POST['filename'])) echo htmlspecialchars($_POST['filename']); ?>" />
             </div>
+            <?php $fileTypes = ['MP3', 'WAVE', 'AIFF', 'MOTOROLA', 'BINARY']; ?>
+            <div class="field">
+                <label for="filetype">File type:</label>
+                <select tabindex="4" id="filetype">
+                    <?php foreach($fileTypes as $fileType): ?>
+                    <option><?=$fileType?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
             <div class="field">
                 <label for="tracklist">Tracklist:</label>
-                <textarea tabindex="4" id="tracklist" name="tracklist" rows="5" cols="10"><?php if(isset($_POST['tracklist'])) echo htmlspecialchars($_POST['tracklist']); ?></textarea>
+                <textarea tabindex="5" id="tracklist" name="tracklist" rows="5" cols="10"><?php if(isset($_POST['tracklist'])) echo htmlspecialchars($_POST['tracklist']); ?></textarea>
             </div>
             <div class="field">
                 <label for="tracklist">Timings: <sup><a href="help.html" target="new">Help</a></sup>
                 </label>
-                <textarea tabindex="5" id="regions_list" name="regions_list" rows="5" cols="10"><?php if(isset($_POST['regions_list'])) echo htmlspecialchars($_POST['regions_list']); ?></textarea>
+                <textarea tabindex="6" id="regions_list" name="regions_list" rows="5" cols="10"><?php if(isset($_POST['regions_list'])) echo htmlspecialchars($_POST['regions_list']); ?></textarea>
             </div>
         </div>
         <div id="cue_ready">
