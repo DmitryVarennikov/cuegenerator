@@ -29,7 +29,7 @@ require_once '_layout/header.html';
                 <label for="filename">File name:</label>
                 <input tabindex="3" autocomplete="off" type="text" id="filename" name="filename" value="<?php if(isset($_POST['filename'])) echo htmlspecialchars($_POST['filename']); ?>" />
             </div>
-            <?php $fileTypes = ['MP3', 'WAVE', 'AIFF', 'MOTOROLA', 'BINARY']; ?>
+            <?php $fileTypes = ['MP3', 'WAVE', 'AIFF', 'MOTOROLA', 'BINARY', 'FLAC']; ?>
             <div class="field">
                 <label for="filetype">File type:</label>
                 <select tabindex="4" id="filetype">
