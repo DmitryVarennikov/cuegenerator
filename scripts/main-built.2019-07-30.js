@@ -1,4 +1,36 @@
-define([], function () {
+define('layout',[
+    'jquery'
+], function () {
+
+    // stretching text areas
+    var height = $(document).height() - 20;
+    $('#tracklist').animate({height: height - 375});
+    $('#cue').animate({height: height - 173});
+
+    $('#cue').one('click', function () {
+        $(this).select();
+    });
+
+    // showing a link to the chrome extension download page if needed
+    var isChromeBrowser = navigator.userAgent.toLowerCase().indexOf('chrome') > - 1;
+    if (isChromeBrowser) {
+        var manifest = document.createElement('script');
+        manifest.src = 'chrome-extension://phoaoafhahilmaoddhppejobcmgnglmc/manifest.json';
+        document.body.appendChild(manifest);
+        // show if extension manifest can not be loaded
+        manifest.onerror = function () {
+            var chromeExtension = document.getElementById('chrome-extension');
+            chromeExtension.style.display = 'block';
+
+            // calculate button left corner
+            var left = Math.round((document.body.offsetWidth - chromeExtension.offsetWidth) / 2);
+            chromeExtension.style.left = left + 'px';
+        };
+    }
+
+});
+
+define('cue/parser',[], function () {
     'use strict';
 
     if (! String.prototype.trim) {
@@ -314,3 +346,117 @@ define([], function () {
     };
 
 });
+
+define('cue/formatter',[
+], function () {
+    'use strict';
+
+    function formatPerformer(string) {
+        return 'PERFORMER "' + string + '"\n';
+    }
+
+    function formatTitle(string) {
+        return 'TITLE "' + string + '"\n';
+    }
+
+    function formatFilename(name, type) {
+        return `FILE "${name}" ${type}\n`;
+    }
+
+    function formatTracklist(tracklist, regionsList, globalPerformer) {
+        var output = '',
+            row,
+            performer;
+
+        for (var i = 0; i < tracklist.length; i ++) {
+            row = tracklist[i];
+
+            performer = row.performer || globalPerformer;
+
+            output += '  TRACK ' + (row.track < 10 ? '0' + row.track : row.track) + ' AUDIO\n';
+            output += '    PERFORMER "' + performer + '"\n';
+            output += '    TITLE "' + row.title + '"\n';
+            output += '    INDEX 01 ' + (regionsList[i] || row.time) + '\n';
+        }
+
+        return output;
+    }
+
+    return {
+        performer: formatPerformer,
+        title:     formatTitle,
+        filename:  formatFilename,
+        tracklist: formatTracklist
+    };
+
+});
+
+define('cue',[
+    'cue/parser',
+    'cue/formatter',
+    'jquery'
+], function (parser, formatter) {
+    'use strict';
+
+    function createCue(performer, title, filename, fileType, tracklist, regionsList) {
+        var cue,
+            performerFormatted,
+            titleFormatted,
+            filenameFormatted,
+            tracklistFormatted;
+
+        performer = parser.performer(performer);
+        performerFormatted = formatter.performer(performer);
+
+        title = parser.title(title);
+        titleFormatted = formatter.title(title);
+
+        filename = parser.filename(filename);
+        filenameFormatted = formatter.filename(filename, fileType);
+
+        tracklist = parser.tracklist(tracklist);
+        regionsList = parser.regionsList(regionsList);
+        tracklistFormatted = formatter.tracklist(tracklist, regionsList, performer);
+
+        cue = performerFormatted + titleFormatted + filenameFormatted + tracklistFormatted;
+
+        return cue;
+    }
+
+    function onChange() {
+        const performer = $('#perfomer').val();
+        const title = $('#title').val();
+        const filename = $('#filename').val();
+        const fileType = $('#filetype').val();
+        const tracklist = $('#tracklist').val();
+        const regionsList = $('#regions_list').val();
+
+        var cue = createCue(performer, title, filename, fileType, tracklist, regionsList);
+        $('#cue').val(cue);
+    }
+
+    $('#cue_fields input, #cue_fields textarea').keyup(onChange);
+    $('#cue_fields select').change(onChange);
+
+});
+
+requirejs.config({
+    baseUrl: 'scripts',
+    urlArgs: require.specified('main') ? "bust=" + (new Date()).getTime() : null,
+    paths:   {
+        jquery: [
+            '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min',
+            'lib/jquery-1.9.1.min'
+        ]
+    }
+});
+
+require([
+    'layout',
+    'cue'
+], function () {
+
+});
+
+define("main", function(){});
+
