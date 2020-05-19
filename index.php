@@ -23,6 +23,7 @@ if ('post' == strtolower($_SERVER['REQUEST_METHOD']) && strlen(trim($_POST['cue'
     header('Content-Type: application/octet-stream');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
     header('Content-Length: ' . $_SERVER['content_length']);
+    echo chr(0xEF) . chr(0xBB) . chr(0xBF); // BOM for UTF-8
     echo trim($_POST['cue']);
 
 //    session_start();
