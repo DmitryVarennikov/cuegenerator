@@ -1,19 +1,13 @@
 CUEgenerator
 =============
-A small utility which facilitates creating cue files from tracklists.
+A small utility which facilitates creating cue files from track lists.
 
-## Build
-```
-npm install -g requirejs
-r.js -o scripts/build-config.js
-```
-
-## Tracklist highlights
+## Track list highlights
 
 * In case if a local performer is absent the global one is used, e.g.
 ![](https://raw.github.com/dVaffection/cuegenerator/master/images/README/global-performer.png)
 
-* Perfomer and title track separators:
+* Performer and title track separators:
     * `' - '` — 45 (hyphen-minus)
     * `' – '` — 8211 (en dash)
     * `' ‒ '` — 8210 (figure dash)
@@ -44,7 +38,18 @@ define('COUNTER_FILENAME', '_counter.dat');
 error_reporting(DEBUG_MODE ? E_ALL | E_STRICT : 0);
 ```
 
-`_counter.dat` is a plain text file where I keep a counter value. There's no predefined content, just make sure it has a writable permissions.
+`_counter.dat` is a plain text file with a counter value. There's no predefined content, just make sure it has a writable permissions.
+
+Running php server example `php -S 127.0.0.1:3012`
 
 **Also please notice there is a test suite located at** `/scripts/tests/index.html`
 This is highly important if you change cue formatter or parser 
+
+## Building with Docker
+There's a development version of `Dockerfile` in the root of this repository. It provides a minimum set-up with `php7.3`, `nodeJS:12` and globally installed `requirejs`. For convenience there's `docker.sh` file that can help to build, run and attach to the running container.
+
+## Building code
+```
+npm install -g requirejs
+r.js -o scripts/build-config.js
+```
