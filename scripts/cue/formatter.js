@@ -15,19 +15,21 @@ define([
     }
 
     function formatTracklist(tracklist, regionsList, globalPerformer) {
-        var output = '',
-            row,
-            performer;
-
+        let output = '';
         for (var i = 0; i < tracklist.length; i ++) {
-            row = tracklist[i];
-
-            performer = row.performer || globalPerformer;
+            const row = tracklist[i];
+            const performer = row.performer || globalPerformer;
+            const time = regionsList[i] || row.time;
 
             output += '  TRACK ' + (row.track < 10 ? '0' + row.track : row.track) + ' AUDIO\n';
             output += '    PERFORMER "' + performer + '"\n';
             output += '    TITLE "' + row.title + '"\n';
-            output += '    INDEX 01 ' + (regionsList[i] || row.time) + '\n';
+            // when first track does not start at 00:00:00
+            // "INDEX 00 00:00:00" line has to be the first index
+            if (i === 0 && time !== '00:00:00') {
+                output += '    INDEX 00 00:00:00 \n';
+            }
+            output += '    INDEX 01 ' + time + '\n';
         }
 
         return output;
