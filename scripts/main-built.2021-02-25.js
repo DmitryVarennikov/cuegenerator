@@ -11,23 +11,6 @@ define('layout',[
         $(this).select();
     });
 
-    // showing a link to the chrome extension download page if needed
-    var isChromeBrowser = navigator.userAgent.toLowerCase().indexOf('chrome') > - 1;
-    if (isChromeBrowser) {
-        var manifest = document.createElement('script');
-        manifest.src = 'chrome-extension://phoaoafhahilmaoddhppejobcmgnglmc/manifest.json';
-        document.body.appendChild(manifest);
-        // show if extension manifest can not be loaded
-        manifest.onerror = function () {
-            var chromeExtension = document.getElementById('chrome-extension');
-            chromeExtension.style.display = 'block';
-
-            // calculate button left corner
-            var left = Math.round((document.body.offsetWidth - chromeExtension.offsetWidth) / 2);
-            chromeExtension.style.left = left + 'px';
-        };
-    }
-
 });
 
 define('cue/parser',[], function () {
@@ -62,32 +45,32 @@ define('cue/parser',[], function () {
                 ' ― ' // 8213 horizontal bar
             ];
 
-        // foreach, switch are toooooooooo slow!
-        var splitted = [],
+        // `foreach` and `switch` are toooooooooo slow!
+        let split = [],
             performer = '',
             title = '';
 
         if (- 1 !== string.search(separators[0])) {
-            splitted = string.split(separators[0]);
+            split = string.split(separators[0]);
         } else if (- 1 !== string.search(separators[1])) {
-            splitted = string.split(separators[1]);
+            split = string.split(separators[1]);
         } else if (- 1 !== string.search(separators[2])) {
-            splitted = string.split(separators[2]);
+            split = string.split(separators[2]);
         } else if (- 1 !== string.search(separators[3])) {
-            splitted = string.split(separators[3]);
+            split = string.split(separators[3]);
         } else if (- 1 !== string.search(separators[4])) {
-            splitted = string.split(separators[4]);
+            split = string.split(separators[4]);
         } else {
-            splitted = [string];
+            split = [string];
         }
 
-        // if we the given string wasn't splitted then we've got just title (performer assumed to be global one)
-        if (1 === splitted.length) {
+        // if string wasn't split yet then we get just a title (performer assumed to be the global one)
+        if (1 === split.length) {
             performer = '';
-            title = splitted.shift();
+            title = split.shift();
         } else {
-            performer = splitted.shift();
-            title = splitted.join(' ');
+            performer = split.shift();
+            title = split.join(' ');
         }
 
         return {
@@ -101,7 +84,12 @@ define('cue/parser',[], function () {
         var time = '',
             residue = '';
 
-        var pattern = /^(?:\d{2}\.)?\[?((?:\d{1,2}:)?\d{2,3}:\d{2})\]?.*$/i;
+        // ask to increase minutes up to 9999 referred to the "h:m" not "h:m:f" format
+        // but I still increased "h:m:f" up to 999 hours just in case
+        // https://github.com/dVaffection/cuegenerator/issues/14
+
+//                          01.             9999:53 | 999:02:28
+        var pattern = /^(?:\d{2}\.)?\[?((?:\d{1,3}:)?\d{2,4}:\d{2})\]?.*$/i;
         var matches = string.match(pattern);
         if (matches && matches[1]) {
             time = matches[1].trim();
@@ -125,7 +113,7 @@ define('cue/parser',[], function () {
     var castTime = function (string) {
         string = string.trim();
 
-        var pattern = /^\d{1,2}:\d{2}:\d{2}$/;
+        var pattern = /^\d{1,3}:\d{2}:\d{2}$/;
         var matches = string.match(pattern);
         if (matches) {
             var times = string.split(':');
@@ -135,7 +123,7 @@ define('cue/parser',[], function () {
             mn = hr * 60 + mn;
             string = mn + ':' + sc + ':00';
         } else {
-            var pattern = /^\d{2,3}:\d{2}$/;
+            var pattern = /^\d{2,4}:\d{2}$/;
             var matches = string.match(pattern);
             if (matches) {
                 string = string + ':00';
@@ -359,19 +347,21 @@ define('cue/formatter',[
     }
 
     function formatTracklist(tracklist, regionsList, globalPerformer) {
-        var output = '',
-            row,
-            performer;
-
+        let output = '';
         for (var i = 0; i < tracklist.length; i ++) {
-            row = tracklist[i];
-
-            performer = row.performer || globalPerformer;
+            const row = tracklist[i];
+            const performer = row.performer || globalPerformer;
+            const time = regionsList[i] || row.time;
 
             output += '  TRACK ' + (row.track < 10 ? '0' + row.track : row.track) + ' AUDIO\n';
             output += '    PERFORMER "' + performer + '"\n';
             output += '    TITLE "' + row.title + '"\n';
-            output += '    INDEX 01 ' + (regionsList[i] || row.time) + '\n';
+            // when first track does not start at 00:00:00
+            // "INDEX 00 00:00:00" line has to be the first index
+            if (i === 0 && time !== '00:00:00') {
+                output += '    INDEX 00 00:00:00 \n';
+            }
+            output += '    INDEX 01 ' + time + '\n';
         }
 
         return output;
